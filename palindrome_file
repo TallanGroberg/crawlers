@@ -1,0 +1,21 @@
+#!/usr/local/bin/node
+
+let fs = require("fs");
+let Phrase = require("cicadapurp-palindrome");
+let text = fs.readFileSync("phrases.txt", "utf8");
+let palindromesArray = [];
+
+text.split("\n").forEach(line => {
+  let phrase = new Phrase(line);
+  if (phrase.palindrome()) {
+    console.log("palindrome detected:", line);
+    palindromesArray.push(line);
+  }
+});
+
+fs.writeFileSync("palindromes.txt", palindromesArray.join("\n"), "utf8");
+
+// Append a newline so that `cat`ing `palindromes.txt` on the command line
+// does not result in the final palindrome appearing directly to the left of
+// the command prompt.
+fs.appendFileSync("palindromes.txt", "\n", "utf8");
